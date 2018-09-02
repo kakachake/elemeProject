@@ -17,14 +17,17 @@ export default new Router({
       children: [{
         path: '/goods',
         name: 'goods',
+        meta:{index:0},
         component: goods
       },{
         path: '/ratings',
         name: 'ratings',
+        meta:{index:1},
         component: ratings
       },{
         path: '/seller',
         name: 'seller',
+        meta:{index:2},
         component: seller
       }]
     }

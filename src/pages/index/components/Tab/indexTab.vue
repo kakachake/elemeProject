@@ -1,14 +1,15 @@
 <template lang="html">
+
     <div class="tab border-bottom">
-      <router-link tag="div" to="/goods" class="tab-item">
-        商品
-      </router-link>
-      <router-link tag="div" to="/ratings" class="tab-item">
-        评论
-      </router-link>
-      <router-link tag="div" to="/seller" class="tab-item">
-        商家
-      </router-link>
+          <router-link tag="div" to="/goods" class="tab-item">
+            商品
+          </router-link>
+          <router-link tag="div" to="/ratings" class="tab-item">
+            评论
+          </router-link>
+          <router-link tag="div" to="/seller" class="tab-item">
+            商家
+          </router-link>
     </div>
 
 </template>
