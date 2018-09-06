@@ -67,6 +67,10 @@ export default {
   .slide-left-leave-active
     transition: all 500ms;
     position: absolute;
+    top: 0
+    bottom: 0
+    right: 0
+    left: 0
   .slide-left-leave-active,
   .slide-right-enter{
     opacity: 0;

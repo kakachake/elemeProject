@@ -33,6 +33,9 @@
                     <span class="now">￥{{food.price}}</span>
                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
+                  <div class="cartControl-wrapper">
+                    <cartControl :food="food"></cartControl>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -41,18 +44,20 @@
       </div>
       </div>
     </div>
-  <shopCart></shopCart>
+  <shopCart :select-foods="selectFoods" :seller="seller.seller"></shopCart>
   </div>
 </template>
 
 <script>
 import Bscroll from 'better-scroll'
 import shopCart from '../shopcart/shopcart'
+import cartControl from '../cartControl/cartControl'
 import axios from 'axios'
 export default {
   name:"goods",
   components:{
-    shopCart
+    shopCart,
+    cartControl
   },
   data () {
     return{
@@ -71,6 +76,17 @@ export default {
         }
       }
       return 0;
+    },
+    selectFoods() {
+      let foods = [];
+      this.seller.goods.forEach((good) => {
+        good.foods.forEach((food)=>{
+          if(food.count) {
+            foods.push(food);
+          }
+        })
+      })
+      return foods
     }
   },
   watch: {
@@ -78,6 +94,7 @@ export default {
     seller() {
       this.$nextTick(()=>{
         this._calculateHeight()
+        this.createdScroll()
       })
     },
     scrollY(){
@@ -112,6 +129,14 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       }
+    },
+    createdScroll() {
+      this.menuscroll = new Bscroll(this.$refs.wrapperFoods, {click: true,  probeType: 3})
+      this.foodsscroll = new Bscroll(this.$refs.wrapperMenu, {click: true})
+      //检测scroll的滚动高度
+      this.menuscroll.on('scroll', (pos) => {
+        this.scrollY = Math.abs(Math.round(pos.y));
+      })
     }
   },
   created () {
@@ -119,12 +144,6 @@ export default {
     this.classMap = ['decrease', 'discount','special', 'guarantee', 'invoice']
   },
   mounted () {
-    this.menuscroll = new Bscroll(this.$refs.wrapperFoods, {click: true,  probeType: 3})
-    this.foodsscroll = new Bscroll(this.$refs.wrapperMenu, {click: true})
-    //检测scroll的滚动高度
-    this.menuscroll.on('scroll', (pos) => {
-      this.scrollY = Math.abs(Math.round(pos.y));
-    })
   }
 }
 </script>
@@ -234,4 +253,8 @@ export default {
               text-decoration: line-through
               color: rgb(147, 153, 159)
               font-size: .2rem
+          .cartControl-wrapper
+            position: absolute
+            right: .06rem
+            bottom: .24rem
 </style>
