@@ -37,6 +37,8 @@ export default {
       } else {
         this.food.count++;
       }
+      //传递被点击元素
+      this.$emit ('cart-add', event.target)
     },
     decreaseCart() {
       if(this.food.count){

@@ -34,7 +34,7 @@
                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartControl-wrapper">
-                    <cartControl :food="food"></cartControl>
+                    <cartControl v-on:cart-add="cartAdd"  :food="food"></cartControl>
                   </div>
                 </div>
               </li>
@@ -44,7 +44,7 @@
       </div>
       </div>
     </div>
-  <shopCart :select-foods="selectFoods" :seller="seller.seller"></shopCart>
+  <shopCart ref="shopCart" :select-foods="selectFoods" :seller="seller.seller"></shopCart>
   </div>
 </template>
 
@@ -137,13 +137,17 @@ export default {
       this.menuscroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y));
       })
+    },
+    cartAdd(el) {
+  //dom元素更新后执行， 因此此处能正确打印更改的值
+      this.$nextTick(()=>{
+        this.$refs['shopCart'].drop(el);
+      })
     }
   },
   created () {
     this.getIndexInfo(),
     this.classMap = ['decrease', 'discount','special', 'guarantee', 'invoice']
-  },
-  mounted () {
   }
 }
 </script>
